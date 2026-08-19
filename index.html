@@ -4,32 +4,340 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jayant Gupchup</title>
+<meta name="description" content="Projects in agentic AI for investment research, recommendation and ranking systems, real-time speech and media, and online experimentation.">
 <style>
-  :root { color-scheme: light dark; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    max-width: 42rem;
-    margin: 12vh auto;
-    padding: 0 1.5rem;
-    line-height: 1.6;
+  :root {
+    --paper:      #FAFBFC;
+    --panel:      #F1F4F6;
+    --ink:        #14181F;
+    --muted:      #59636E;
+    --rule:       #E1E6EA;
+    --accent:     #0F6E7A;
+    --accent-dim: #E6F2F3;
+
+    --serif: Georgia, "Iowan Old Style", "Source Serif Pro", "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
   }
-  h1 { font-size: 1.75rem; margin-bottom: 0.25rem; }
-  .tag { color: #888; font-size: 0.95rem; }
-  .box { margin-top: 2rem; padding: 1rem 1.25rem; border: 1px solid #8884; border-radius: 8px; }
-  footer { margin-top: 3rem; font-size: 0.8rem; color: #888; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:      #101418;
+      --panel:      #171D23;
+      --ink:        #E8EDF1;
+      --muted:      #93A0AB;
+      --rule:       #232B33;
+      --accent:     #4FC3CE;
+      --accent-dim: #16262B;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper:      #101418;
+    --panel:      #171D23;
+    --ink:        #E8EDF1;
+    --muted:      #93A0AB;
+    --rule:       #232B33;
+    --accent:     #4FC3CE;
+    --accent-dim: #16262B;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.65;
+    margin: 0;
+    padding: 0 1.5rem 6rem;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 46rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3.25rem;
+  }
+
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; }
+  a:hover { border-bottom-color: var(--accent); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+  /* ---------- masthead ---------- */
+  header {
+    padding-top: 4.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+  }
+  .masthead-text { display: flex; flex-direction: column; gap: 0.7rem; min-width: 0; }
+
+  .portrait {
+    width: 132px;
+    height: 132px;
+    flex: none;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center 20%;
+    border: 1px solid var(--rule);
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.1rem, 5vw, 2.9rem);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .standfirst {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+    font-family: var(--mono);
+    font-size: 0.84rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .intro { margin: 0; }
+  .intro p { margin: 0 0 0.9rem; }
+  .intro p:last-child { margin-bottom: 0; }
+
+  /* ---------- sections ---------- */
+  section { display: flex; flex-direction: column; gap: 1.75rem; }
+
+  h2 {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .entry { display: flex; flex-direction: column; gap: 0.45rem; }
+
+  h3 {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .meta {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .entry p.body { margin: 0.25rem 0 0; }
+
+  .refs {
+    list-style: none;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.42rem;
+    font-size: 0.92rem;
+  }
+  .refs li {
+    padding-left: 1.1rem;
+    position: relative;
+    color: var(--muted);
+  }
+  .refs li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 0.45rem;
+    height: 1px;
+    background: var(--accent);
+  }
+  .venue {
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  a.venue { color: var(--accent); }
+
+  footer {
+    border-top: 1px solid var(--rule);
+    padding-top: 1.25rem;
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 34rem) {
+    body { font-size: 16px; padding: 0 1.15rem 4rem; }
+    header {
+      padding-top: 3rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.15rem;
+    }
+    .portrait { width: 104px; height: 104px; }
+    .wrap { gap: 2.5rem; }
+  }
 </style>
 </head>
 <body>
-  <h1>Jayant Gupchup</h1>
-  <p class="tag">Machine Learning &amp; Engineering Leadership</p>
+<div class="wrap">
 
-  <div class="box">
-    <strong>🚧 In Construction</strong>
-    <p>This site is being built. Check back soon.</p>
+  <header>
+    <img class="portrait" src="jayant_gupchup.png" alt="Jayant Gupchup">
+    <div class="masthead-text">
+      <h1>Jayant Gupchup</h1>
+      <p class="standfirst">Machine learning in production systems</p>
+      <ul class="links">
+        <li><a href="https://www.linkedin.com/in/jayant-gupchup/">LinkedIn</a></li>
+        <li><a href="https://github.com/gupchup">GitHub</a></li>
+        <li><a href="https://scholar.google.com/citations?user=23Eo1UkAAAAJ">Google Scholar</a></li>
+        <li><a href="https://dblp.org/pid/27/981.html">DBLP</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <div class="intro">
+    <p>This page collects work on machine learning systems that run in production: agentic AI for equity research at Meritus Capital, recommendation and ranking at Uber, and real-time speech, media, and online experimentation at Microsoft. Earlier work, at Johns Hopkins University, covered data management for environmental monitoring sensor networks.</p>
+    <p>A recurring theme is measurement. In most of these projects the harder half was the evaluation apparatus — golden sets, judges, A/B infrastructure, metric definitions, loss-tolerant telemetry — rather than the model itself.</p>
   </div>
 
+  <section>
+    <h2>Projects</h2>
+
+    <div class="entry">
+      <h3>Agentic AI for equity research</h3>
+      <p class="meta">Meritus Capital · 2025 – present</p>
+      <p class="body">A multi-stage LLM pipeline screens a universe of 1,100+ listed equities down to a ranked shortlist, replicating how an analyst reasons through an idea rather than applying static quantitative filters. One stage detects operational inflection, one forces the model to name a specific mispricing mechanism from a controlled vocabulary or reject, and one runs a comparative tournament across survivors.</p>
+      <ul class="refs">
+        <li><strong>Evaluation harness.</strong> A fixed golden set, pairwise LLM-as-judge scoring, and cross-run stability testing — with the judge itself validated against human labels and A/A tests before being trusted to gate changes.</li>
+        <li><strong>Closed-loop prompt tuning</strong> driven by analyst annotations and A/B tested against the previous prompt. Judge-scored quality rose 84 → 91; severe defects fell from 28% to 11%.</li>
+        <li><strong>Cost engineering.</strong> Cost per run cut 62% at equal measured quality, via model-tier A/B tests, search-budget tuning, batch inference, and DSPy optimization.</li>
+        <li><strong>Variance.</strong> Repeated runs of one prompt on one ticker diverged materially; instrumenting the retrieved-context block traced it to non-determinism in live web search rather than model reasoning, motivating a move from point estimates to directional bands.</li>
+        <li><strong>Earnings-call sentiment</strong> <span class="venue">in progress</span> — a sentence-level detector for Indian equities, benchmarked against an expert-validated gold set.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <h3>Rider homepage personalization</h3>
+      <p class="meta">Uber · 2022 – 2025</p>
+      <p class="body">The Uber Rides homepage was a static, one-size-fits-all surface whose contents were effectively hard-coded. This work replaced it with a personalized, ranked experience. The decisive architectural move was decoupling layout generation from rendering: once the server decides what to show and in what order, content can be onboarded and ranked independently of the client release cycle. Onboarding new content fell from roughly three months to about a week, the number of themed carousels the system could rank and serve grew several-fold, and the ranking path extended beyond the rides homepage to scheduled rides and Uber Eats products.</p>
+      <p class="body">In production the serving path sustains over 5,000 queries per second at sub-50 millisecond latency and better than 99.99% reliability. Measured through controlled A/B experiments, the ranking service drove nine-figure incremental revenue.</p>
+      <ul class="refs">
+        <li><strong>Ranking model.</strong> A production deep-learning ranker combining real-time engagement signals with explicit exploration. Discovery versus repeat access is the central modeling problem on a homepage — a purely greedy ranker collapses onto what a rider already does and quietly stops surfacing anything new.</li>
+        <li><strong>Multi-task learning.</strong> One architecture predicting both clicks and conversions, so competing business objectives are traded off inside the model rather than across separately tuned ones.</li>
+        <li><strong>Cold start.</strong> LLM-generated embedding features to rank content with little or no engagement history — the case where collaborative signals are absent by construction.</li>
+        <li><strong>Serving efficiency.</strong> Inference runtime cut 50% through reduced numerical precision and a caching layer, which kept the latency budget intact as the model grew.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <h3>ML speech enhancement and meeting quality</h3>
+      <p class="meta">Microsoft Teams · 2019 – 2022</p>
+      <p class="body">Machine learning applied to the audio path and the meeting experience in Teams, spanning the training-data pipeline, the models, and the compliance boundary they had to operate inside. Deep noise suppression and echo cancellation models need training and test audio that reflects real calls; obtaining it without violating the compliance boundary is the constraint the data work is built around.</p>
+      <ul class="refs">
+        <li><strong>AURA</strong> — privacy-preserving augmentation to improve test set diversity in speech enhancement. A semi-supervised pipeline builds training and test sets from real call audio while remaining inside the compliance boundary; training set diversity rose 50% and out-of-distribution coverage 84%. <a class="venue" href="https://doi.org/10.1109/ICASSP49357.2023.10096879">ICASSP 2023</a> · <a class="venue" href="https://arxiv.org/abs/2110.04391">arXiv</a> · <a class="venue" href="https://github.com/microsoft/Aura">code</a></li>
+        <li><strong>Speech interruption analysis</strong> — a transformer-based classifier that categorizes interruptions to drive automatic hand-raise and hand-lower, improving meeting inclusiveness. 100 hours of speech collected and labeled by crowdsourcing, with explicit data-quality metrics. <a class="venue" href="https://doi.org/10.1145/3503161.3548379">ACM Multimedia 2022</a></li>
+        <li><strong>From cloud to client</strong> — taking the interruption model from a cloud service to on-device deployment, where the latency and footprint budgets are far tighter. <a class="venue" href="https://doi.org/10.1109/ICASSP49357.2023.10095639">ICASSP 2023</a> · <a class="venue" href="https://arxiv.org/abs/2210.13334">arXiv</a></li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <h3>Replacing software constants with learned models</h3>
+      <p class="meta">Microsoft Teams &amp; Skype · 2015 – 2022</p>
+      <p class="body">Real-time communication stacks are full of hand-tuned operational constants — buffer sizes, thresholds, timeouts — chosen once and rarely revisited. This line of work replaced those constants with context-aware models learned online against live traffic, applied across more than ten scenarios spanning audio, video, transport, and payments. Models became the in-code default on the strength of A/B-validated Tier-1 metric wins.</p>
+      <ul class="refs">
+        <li><strong>Resonance</strong> — replacing software constants with context-aware models in real-time communication. <a class="venue" href="https://arxiv.org/abs/2011.12715">NeurIPS ML for Systems 2020</a></li>
+        <li><strong>Machine-learned audio jitter buffer</strong> — bandit methods tune the jitter buffer, which trades latency against concealment of late packets. Cut the poor-call rate by two percentage points absolute and became the default in the Skype and Teams clients; ranked in the top 1% of impactful A/B tests run in Microsoft's real-time communication organization.</li>
+        <li><strong>Audio-quality classification</strong> — a classifier trained on network traces from real calls, with the architecture chosen against an explicit accuracy-versus-latency tradeoff for real-time serving.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <h3>Experimentation and metrics for real-time media</h3>
+      <p class="meta">Microsoft · 2014 – 2019</p>
+      <p class="body">Tier-1 metric definitions and A/B testing practice for the audio organization, taking it from roughly three experiments per quarter to a hundred within three years. Running experiments at that rate on a real-time media stack surfaced measurement problems worth publishing on in their own right — telemetry from a call is lossy and the loss is not random, which breaks the assumptions most experimentation platforms rest on.</p>
+      <ul class="refs">
+        <li><strong>Diagnosing sample ratio mismatch in online controlled experiments</strong> — when the traffic split itself is wrong, every downstream result is suspect. <a class="venue" href="https://doi.org/10.1145/3292500.3330722">KDD 2019</a></li>
+        <li><strong>Lumos</strong> — a library for diagnosing metric regressions in web-scale applications, accounting for population differences and invariant features. <a class="venue" href="https://doi.org/10.1145/3394486.3403306">KDD 2020</a> · <a class="venue" href="https://arxiv.org/abs/2006.12793">arXiv</a> · <a class="venue" href="https://github.com/microsoft/MS-Lumos">code</a></li>
+        <li><strong>Trustworthy experimentation under telemetry loss</strong> — how to keep experiment conclusions valid when the telemetry itself goes missing non-uniformly. <a class="venue" href="https://arxiv.org/abs/1903.12470">CIKM 2018</a></li>
+        <li><strong>Quality-of-experience surveys</strong> — analysis of problem tokens to rank factors impacting quality in VoIP applications, and on the design of problem-token questions.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <h3>Capacity forecasting during the Covid-19 surge</h3>
+      <p class="meta">Microsoft · 2020</p>
+      <p class="body">Teams usage grew by an order of magnitude in the first months of the pandemic, and cloud capacity has procurement lead times measured in weeks. A company-wide forecasting effort estimated the backend service capacity and bandwidth required to absorb the surge; the model underpinned securing a tenfold increase in service capacity ahead of the demand rather than behind it.</p>
+      <ul class="refs">
+        <li>Context on the scale of the surge: <a class="venue" href="https://venturebeat.com/business/microsofts-jeff-teper-teams-will-be-even-bigger-than-windows">Microsoft's Jeff Teper: Teams will be even bigger than Windows</a> <span class="venue">VentureBeat</span></li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <h3>Measuring reading levels in India at scale</h3>
+      <p class="meta">Pratham Education Foundation · 2017 – 2019</p>
+      <p class="body">Reading-level assessment in Indian schools is done by hand, one child at a time, which bounds how many students can be surveyed. Two Microsoft hackathon projects automated the measurement from recorded audio, applied to surveys covering roughly a million students.</p>
+      <ul class="refs">
+        <li><strong>A dataset for measuring reading levels in India at scale</strong> <a class="venue" href="https://doi.org/10.1109/ICASSP40776.2020.9053380">ICASSP 2020</a> · <a class="venue" href="https://github.com/PrathamOrg/ASER-Dataset">dataset</a></li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <h3>Environmental monitoring sensor networks</h3>
+      <p class="meta">Johns Hopkins University · Ph.D. research</p>
+      <p class="body">Sensor networks deployed in the field for months at a time are bound by power, and their data is only as good as the timestamps attached to it — clocks drift, nodes reboot, and the record has to be reconstructed after the fact. Doctoral work on data management for these deployments used machine learning to cut network power consumption by half while holding data accuracy above 99% at deployment scale.</p>
+      <ul class="refs">
+        <li><strong>Sundial</strong> — using sunlight to reconstruct global timestamps, recovering time from the light record when the clock is unreliable. <a class="venue" href="https://arxiv.org/abs/1901.09670">arXiv</a></li>
+        <li><strong>Phoenix</strong> — an epidemic approach to time reconstruction. <a class="venue" href="https://arxiv.org/abs/1902.00808">arXiv</a></li>
+        <li><strong>Tempo</strong> — an energy-harvesting mote resilient to power outages.</li>
+        <li><strong>K2</strong> — a system for campaign deployments of wireless sensor networks.</li>
+        <li><strong>Wireless sensor networks for soil moisture monitoring</strong> <a class="venue" href="https://doi.org/10.5220/0010261500250036">SENSORNETS 2021</a> · <a class="venue" href="https://arxiv.org/abs/2102.10260">arXiv</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Publications &amp; service</h2>
+    <p class="body">A complete list is on <a href="https://scholar.google.com/citations?user=23Eo1UkAAAAJ">Google Scholar</a> and <a href="https://dblp.org/pid/27/981.html">DBLP</a>, spanning NeurIPS, KDD, ICASSP, ACM Multimedia, and CIKM.</p>
+    <ul class="refs">
+      <li>Program committee — NeurIPS ML for Systems <span class="venue">2021</span></li>
+      <li>Program committee — KDD Industry Track <span class="venue">2019, 2020</span></li>
+      <li>Program committee — International Conference on Big Data <span class="venue">2017, 2018</span></li>
+      <li>2 patents in Voice over IP and speech processing</li>
+    </ul>
+  </section>
+
   <footer>
-    <p>Build marker: <span id="marker">v1</span></p>
+    Seattle, Washington · gupchup [at] gmail [dot] com
   </footer>
+
+</div>
 </body>
 </html>
