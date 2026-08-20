@@ -233,19 +233,6 @@
     <h2>Projects</h2>
 
     <div class="entry">
-      <h3>Agentic AI for equity research</h3>
-      <p class="meta">Meritus Capital · 2025 – present</p>
-      <p class="body">A multi-stage LLM pipeline screens a universe of 1,100+ listed equities down to a ranked shortlist, replicating how an analyst reasons through an idea rather than applying static quantitative filters. One stage detects operational inflection, one forces the model to name a specific mispricing mechanism from a controlled vocabulary or reject, and one runs a comparative tournament across survivors.</p>
-      <ul class="refs">
-        <li><strong>Evaluation harness.</strong> A fixed golden set, pairwise LLM-as-judge scoring, and cross-run stability testing — with the judge itself validated against human labels and A/A tests before being trusted to gate changes.</li>
-        <li><strong>Closed-loop prompt tuning</strong> driven by analyst annotations and A/B tested against the previous prompt. Judge-scored quality rose 84 → 91; severe defects fell from 28% to 11%.</li>
-        <li><strong>Cost engineering.</strong> Cost per run cut 62% at equal measured quality, via model-tier A/B tests, search-budget tuning, batch inference, and DSPy optimization.</li>
-        <li><strong>Variance.</strong> Repeated runs of one prompt on one ticker diverged materially; instrumenting the retrieved-context block traced it to non-determinism in live web search rather than model reasoning, motivating a move from point estimates to directional bands.</li>
-        <li><strong>Earnings-call sentiment</strong> <span class="venue">in progress</span> — a sentence-level detector for Indian equities, benchmarked against an expert-validated gold set.</li>
-      </ul>
-    </div>
-
-    <div class="entry">
       <h3>Rider homepage personalization</h3>
       <p class="meta">Uber · 2022 – 2025</p>
       <p class="body">The Uber Rides homepage was a static, one-size-fits-all surface whose contents were effectively hard-coded. This work replaced it with a personalized, ranked experience. The decisive architectural move was decoupling layout generation from rendering: once the server decides what to show and in what order, content can be onboarded and ranked independently of the client release cycle. Onboarding new content fell from roughly three months to about a week, the number of themed carousels the system could rank and serve grew several-fold, and the ranking path extended beyond the rides homepage to scheduled rides and Uber Eats products.</p>
